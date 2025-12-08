@@ -1,15 +1,14 @@
-name: Sync Upstream
+name: Sync Upstream (master)
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # 每天自动同步一次
-  workflow_dispatch:       # 手动触发按钮  
-  watch:
-    types: started
+    - cron: '0 0 * * *'     # 每天自动同步一次
+  workflow_dispatch:         # 手动触发按钮
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,10 +20,10 @@ jobs:
           git remote add upstream https://github.com/orion-lib/OrionTV
           git fetch upstream
 
-      - name: Merge upstream
+      - name: Merge upstream master into fork
         run: |
-          git merge upstream/main --allow-unrelated-histories || true
+          git merge upstream/master --allow-unrelated-histories || true
 
-      - name: Push
+      - name: Push changes
         run: |
-          git push origin main
+          git push origin master
